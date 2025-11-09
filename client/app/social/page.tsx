@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Sidebar from '../components/sidebar/sidebar';
-import { Trophy, Flame, Users, Target, ChevronDown, ChevronUp } from 'lucide-react';
+import { Trophy, Flame, Users, Target, ChevronDown, ChevronUp, CheckCircle } from 'lucide-react';
 
 export default function SocialPage() {
   const [isChallengesExpanded, setIsChallengesExpanded] = useState(true);
@@ -14,65 +14,127 @@ export default function SocialPage() {
 
       <main className="flex-1 p-6 lg:p-8 space-y-10 max-w-[1600px] mx-auto">
         {/* Your Profile Card */}
-        <section className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100">
-          <div className="text-sm text-gray-600 mb-4">Your Profile</div>
+        <section className="bg-white rounded-xl p-6 lg:p-8 border border-gray-100">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+            <span className="text-sm font-medium text-gray-600 uppercase tracking-wide">Your Profile</span>
+          </div>
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-gray-200" />
-              <div className="text-2xl font-semibold text-gray-900">Dohn Joe</div>
+            <div className="flex items-center gap-5">
+              <div className="relative">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                  DJ
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-3 border-white flex items-center justify-center">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-gray-900 mb-1">Dohn Joe</div>
+                <div className="text-sm text-gray-500">Member since Nov 2024</div>
+              </div>
             </div>
-            <div className="rounded-2xl bg-blue-50 px-5 py-4 text-right w-full md:w-auto">
-              <div className="text-3xl font-bold text-gray-900">4000 points</div>
-              <div className="mt-2 text-xs text-green-700 flex items-center justify-end gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                <span>
-                  With rewards you&apos;ve saved <span className="font-semibold">$286</span> this month!
-                </span>
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl px-6 py-5 border border-blue-100 w-full md:w-auto min-w-[280px]">
+              <div className="text-right">
+                <div className="text-3xl font-bold text-gray-900 mb-2">4,000 points</div>
+                <div className="flex items-center justify-end gap-2 text-sm">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-green-700">
+                    With rewards you&apos;ve saved <span className="font-semibold text-green-800">$286</span> this month!
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Group Card */}
-        <section className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100">
-          <div className="text-sm text-gray-600 mb-4">Groups</div>
+        {/* Groups Card */}
+        <section className="bg-white rounded-xl p-6 lg:p-8 border border-gray-100">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <Users size={18} className="text-gray-600" />
+              <span className="text-sm font-medium text-gray-600 uppercase tracking-wide">Groups</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <button className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors duration-200 flex items-center gap-2">
+                <Users size={16} />
+                Create Group
+              </button>
+              <button className="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium transition-colors duration-200">
+                Enter Invite
+              </button>
+            </div>
+          </div>
 
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-gray-200" />
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between mb-8">
+            <div className="flex items-center gap-5">
+              <div className="relative">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white text-lg font-bold shadow-lg">
+                  UW
+                </div>
+                <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-500 rounded-full border-3 border-white flex items-center justify-center">
+                  <Trophy size={14} className="text-white" />
+                </div>
+              </div>
               <div>
-                <div className="text-2xl font-semibold text-gray-900">UW Classmates</div>
-                <div className="text-xs text-gray-500">8 Members</div>
+                <div className="text-2xl font-bold text-gray-900 mb-1">UW Classmates</div>
+                <div className="flex items-center gap-3 text-sm text-gray-500">
+                  <span className="flex items-center gap-1">
+                    <Users size={14} />
+                    8 Members
+                  </span>
+                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                  <span className="text-green-600 font-medium">7-day streak</span>
+                </div>
               </div>
             </div>
 
-            <div className="rounded-2xl bg-blue-50 px-5 py-4 text-right w-full md:w-auto">
-              <div className="text-3xl font-bold text-gray-900">26,067 points</div>
-              <div className="mt-2 text-xs text-green-700 flex items-center justify-end gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                <span>
-                  With rewards your group saved <span className="font-semibold">$623</span> this month!
-                </span>
+            <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl px-6 py-5 border border-purple-100 w-full md:w-auto min-w-[280px]">
+              <div className="text-right">
+                <div className="text-3xl font-bold text-gray-900 mb-2">26,067 points</div>
+                <div className="flex items-center justify-end gap-2 text-sm">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-green-700">
+                    With rewards your group saved <span className="font-semibold text-green-800">$623</span> this month!
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Actions moved into Groups card */}
-          <div className="flex items-center justify-end gap-3 mb-6">
-            <button className="px-5 py-2.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium">
-              Create Group
-            </button>
-            <button className="px-5 py-2.5 rounded-full bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium">
-              Enter Invite
-            </button>
-          </div>
-
-          <div className="rounded-2xl bg-gray-50 border border-gray-200 p-6">
-            <div className="text-sm text-gray-700 mb-2">As a group, save $1,000 this month</div>
-            <div className="h-3 rounded-full bg-white border border-gray-200 overflow-hidden">
-              <div className="h-full bg-green-500 rounded-full" style={{ width: '62%' }} />
+          {/* Group Goal Progress */}
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <div className="text-lg font-semibold text-gray-900 mb-1">Group Savings Goal</div>
+                <div className="text-sm text-gray-600">As a group, save $1,000 this month</div>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-green-600">$623</div>
+                <div className="text-sm text-gray-500">of $1,000</div>
+              </div>
             </div>
-            <div className="mt-4 text-sm text-gray-600">5/5 have used their rewards, well done!</div>
+            
+            <div className="mb-4">
+              <div className="flex justify-between text-sm text-gray-600 mb-2">
+                <span>Progress</span>
+                <span>62%</span>
+              </div>
+              <div className="h-3 rounded-full bg-white border border-gray-200 overflow-hidden shadow-inner">
+                <div 
+                  className="h-full bg-gradient-to-r from-green-400 to-green-500 rounded-full transition-all duration-500 shadow-sm" 
+                  style={{ width: '62%' }} 
+                />
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm">
+                <CheckCircle size={16} className="text-green-500" />
+                <span className="text-gray-700">8/8 members took advantage of rewards this week</span>
+              </div>
+              <div className="text-sm text-gray-500">9 days left</div>
+            </div>
           </div>
         </section>
 
