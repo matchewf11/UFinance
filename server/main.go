@@ -6,9 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"UFinance/banking"
+	"UFinance/api"
 	"UFinance/db"
-	"UFinance/server"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -31,8 +30,7 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	banking.BankingRouter(r)
-	s := server.New(r, conn)
+	s := api.New(r, conn)
 	s.APIRoutes()
 
 	log.Println("Server running on http://localhost:8080")
