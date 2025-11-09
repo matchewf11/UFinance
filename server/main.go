@@ -1,29 +1,23 @@
 package main
 
 import (
-	"UFinance/api"
-	"UFinance/banking"
 	"context"
 	"log"
 	"net/http"
-	"os"
 	"time"
+
+	"UFinance/api"
+	"UFinance/banking"
+	"UFinance/db"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v5"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load("../.env")
+	conn, err := db.New()
 	if err != nil {
-		log.Println("No .env file found, relying on environment variables")
-	}
-
-	conn, err := pgx.Connect(context.Background(), os.Getenv("db"))
-	if err != nil {
-		log.Fatalf("Failed to connect to the database: %v", err)
+		log.Fatalf("could not make db")
 	}
 	defer conn.Close(context.Background())
 
