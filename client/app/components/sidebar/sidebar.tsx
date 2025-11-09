@@ -3,14 +3,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { TrendingUp, Award, Users, DollarSign, Gift, Info, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
+import { TrendingUp, Award, Users, DollarSign, Info, Settings, ChevronLeft, ChevronRight, Home } from 'lucide-react';
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const pathname = usePathname();
 
   const mainMenuItems = [
-    { name: 'Dashboard', icon: TrendingUp, href: '/' },
+    { name: 'Dashboard', icon: Home, href: '/' },
     { name: 'Rewards', icon: Award, href: '/rewards' },
     { name: 'Groups', icon: Users, href: '/social' },
     { name: 'Transactions', icon: DollarSign, href: '/transactions' },
@@ -18,7 +18,6 @@ export default function Sidebar() {
   ];
 
   const otherMenuItems = [
-    { name: 'Integrations', icon: Gift, href: '/integrations' },
     { name: 'Settings', icon: Settings, href: '/settings' },
     { name: 'Get Help', icon: Info, href: '/help' },
   ];

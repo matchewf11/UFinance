@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
 
 type PersonalizedInsight = {
   userSpending: string;
@@ -127,6 +128,21 @@ const cardColorMap: Record<CreditCardRecommendation["color"], string> = {
 export default function FinanceCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Bank options for the dropdown
+  const bankOptions = [
+    { name: "BECU", fullName: "Boeing Employees' Credit Union" },
+    { name: "Sound Credit Union", fullName: "Sound Credit Union" },
+    { name: "Discover", fullName: "Discover Bank" },
+    { name: "Capital One", fullName: "Capital One" }
+  ];
+
+  const handleBankSelect = (bankName: string) => {
+    console.log(`Selected bank: ${bankName}`);
+    setIsDropdownOpen(false);
+    // Add integration logic here
+  };
 
   const prevCard = () => {
     setIsAnimating(true);
@@ -162,10 +178,45 @@ export default function FinanceCarousel() {
               </div>
             </div>
           </div>
-          <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm font-semibold rounded-lg transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-1">
-            <span className="text-base">+</span>
-            <span>Integrate a bank</span>
-          </button>
+          {/* Bank Integration Dropdown */}
+          <div className="relative">
+            <button 
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white text-sm font-semibold rounded-lg transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-2"
+            >
+              <span>Integrate a bank</span>
+              <ChevronDown size={16} className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className="absolute right-0 bottom-full mb-2 w-64 bg-white border border-gray-200 rounded-lg shadow-xl z-[9999]">
+                <div className="py-2">
+                  <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100">
+                    Select Bank to Integrate
+                  </div>
+                  {bankOptions.map((bank) => (
+                    <button
+                      key={bank.name}
+                      onClick={() => handleBankSelect(bank.name)}
+                      className="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors duration-150"
+                    >
+                      <div className="font-medium text-gray-900">{bank.name}</div>
+                      <div className="text-sm text-gray-500">{bank.fullName}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Overlay to close dropdown when clicking outside */}
+            {isDropdownOpen && (
+              <div 
+                className="fixed inset-0 z-[9998]" 
+                onClick={() => setIsDropdownOpen(false)}
+              />
+            )}
+          </div>
         </div>
       </div>
       <div className="mb-10"></div>
