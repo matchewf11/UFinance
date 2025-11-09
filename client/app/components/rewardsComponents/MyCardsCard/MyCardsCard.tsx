@@ -1,12 +1,72 @@
-import React from 'react';
-import { CreditCard, Eye } from 'lucide-react';
+import React, { useState } from 'react';
+import { CreditCard, Eye, ChevronDown } from 'lucide-react';
 
 const MyCardsCard: React.FC = () => {
+    const [selectedView, setSelectedView] = useState('My Card');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const viewOptions = [
+        { value: 'My Card', label: 'My Card', icon: CreditCard },
+        { value: 'All Cards', label: 'All Cards', icon: CreditCard },
+        { value: 'Active Cards', label: 'Active Cards', icon: CreditCard },
+        { value: 'Credit Cards', label: 'Credit Cards', icon: CreditCard },
+        { value: 'Debit Cards', label: 'Debit Cards', icon: CreditCard },
+    ];
+
+    const handleViewChange = (view: string) => {
+        setSelectedView(view);
+        setIsDropdownOpen(false);
+    };
+
     return (
         <div>
-            <div className="flex items-center gap-2 mb-6">
-                <CreditCard className="w-5 h-5 text-indigo-600" />
-                <h2 className="text-lg font-semibold text-gray-900">My Card</h2>
+            <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-2">
+                    <CreditCard className="w-5 h-5 text-indigo-600" />
+                    <div className="relative">
+                        <button
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="flex items-center gap-2 text-lg font-semibold text-gray-900 hover:text-gray-700 transition-colors duration-200"
+                        >
+                            {selectedView}
+                            <ChevronDown 
+                                size={16} 
+                                className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} 
+                            />
+                        </button>
+
+                        {/* Dropdown Menu */}
+                        {isDropdownOpen && (
+                            <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                                <div className="py-2">
+                                    {viewOptions.map((option) => {
+                                        const IconComponent = option.icon;
+                                        return (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => handleViewChange(option.value)}
+                                                className={`w-full text-left px-4 py-2 hover:bg-gray-50 transition-colors duration-150 flex items-center gap-2 ${
+                                                    selectedView === option.value ? 'bg-indigo-50 text-indigo-600' : 'text-gray-900'
+                                                }`}
+                                            >
+                                                <IconComponent size={16} />
+                                                {option.label}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Overlay to close dropdown when clicking outside */}
+                        {isDropdownOpen && (
+                            <div 
+                                className="fixed inset-0 z-40" 
+                                onClick={() => setIsDropdownOpen(false)}
+                            />
+                        )}
+                    </div>
+                </div>
             </div>
 
             {/* Credit Card */}

@@ -132,16 +132,77 @@ export default function FinanceCarousel() {
 
   // Bank options for the dropdown
   const bankOptions = [
-    { name: "BECU", fullName: "Boeing Employees' Credit Union" },
-    { name: "Sound Credit Union", fullName: "Sound Credit Union" },
-    { name: "Discover", fullName: "Discover Bank" },
-    { name: "Capital One", fullName: "Capital One" }
+    { 
+      name: "BECU", 
+      fullName: "Boeing Employees' Credit Union",
+      description: "Employee-focused banking with competitive rates"
+    },
+    { 
+      name: "Sound Credit Union", 
+      fullName: "Sound Credit Union",
+      description: "Local credit union with member benefits"
+    },
+    { 
+      name: "Discover", 
+      fullName: "Discover Bank",
+      description: "Online banking with cashback rewards"
+    },
+    { 
+      name: "Capital One", 
+      fullName: "Capital One",
+      description: "Digital banking with innovative features"
+    }
   ];
 
   const handleBankSelect = (bankName: string) => {
     console.log(`Selected bank: ${bankName}`);
+    
+    // Bank-specific data
+    const bankData: Record<string, { savings: number; value: string; color: CreditCardRecommendation["color"] }> = {
+      "BECU": { savings: 320, value: "$180", color: "purple" },
+      "Sound Credit Union": { savings: 275, value: "$165", color: "blue" },
+      "Discover": { savings: 385, value: "$220", color: "orange" as CreditCardRecommendation["color"] },
+      "Capital One": { savings: 340, value: "$195", color: "red" }
+    };
+
+    const selectedBankData = bankData[bankName] || { savings: 250, value: "$150", color: "green" as const };
+    
+    // Create new recommendation based on selected bank
+    const newRecommendation: CreditCardRecommendation = {
+      name: `${bankName} Rewards Card`,
+      institution: bankName,
+      benefits: [
+        "2% cash back on all purchases", 
+        "No annual fee", 
+        `Exclusive ${bankName} member benefits`
+      ],
+      estimatedSavings: selectedBankData.savings,
+      actionText: "Apply Now",
+      color: selectedBankData.color,
+      personalizedInsights: [
+        {
+          userSpending: `Based on your spending with ${bankName}`,
+          benefitMatch: "This card maximizes rewards on your current spending patterns",
+          potentialValue: `${selectedBankData.value}/year`
+        }
+      ],
+      usageStrategies: [
+        {
+          title: "Maximize bank synergy",
+          description: `Use with your existing ${bankName} accounts for bonus benefits`
+        }
+      ]
+    };
+
+    // Add to recommendations array
+    recommendations.push(newRecommendation);
+    
+    // Switch to the new card
+    setCurrentIndex(recommendations.length - 1);
     setIsDropdownOpen(false);
-    // Add integration logic here
+
+    // Show success feedback
+    console.log(`Added ${bankName} card to recommendations`);
   };
 
   const prevCard = () => {
@@ -163,8 +224,8 @@ export default function FinanceCarousel() {
   const currentCard = recommendations[currentIndex];
 
   return (
-    <div className="mb-6">
-      <div className="text-2xl font-bold text-gray-900 border-b border-gray-300 pb-4 overflow-hidden">
+    <div className="mb-6 relative">
+      <div className="text-2xl font-bold text-gray-900 border-b border-gray-300 pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-baseline gap-2">
             <span>Get more out of</span>
@@ -178,7 +239,7 @@ export default function FinanceCarousel() {
               </div>
             </div>
           </div>
-          {/* Bank Integration Dropdown */}
+          {/* Bank Integration Button */}
           <div className="relative">
             <button 
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -187,38 +248,67 @@ export default function FinanceCarousel() {
               <span>Integrate a bank</span>
               <ChevronDown size={16} className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
-
-            {/* Dropdown Menu */}
-            {isDropdownOpen && (
-              <div className="absolute right-0 bottom-full mb-2 w-64 bg-white border border-gray-200 rounded-lg shadow-xl z-[9999]">
-                <div className="py-2">
-                  <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100">
-                    Select Bank to Integrate
-                  </div>
-                  {bankOptions.map((bank) => (
-                    <button
-                      key={bank.name}
-                      onClick={() => handleBankSelect(bank.name)}
-                      className="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors duration-150"
-                    >
-                      <div className="font-medium text-gray-900">{bank.name}</div>
-                      <div className="text-sm text-gray-500">{bank.fullName}</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Overlay to close dropdown when clicking outside */}
-            {isDropdownOpen && (
-              <div 
-                className="fixed inset-0 z-[9998]" 
-                onClick={() => setIsDropdownOpen(false)}
-              />
-            )}
           </div>
         </div>
       </div>
+
+      {/* Dropdown Menu - Positioned at component root level */}
+      {isDropdownOpen && (
+        <div className="absolute top-16 right-0 w-72 sm:w-80 bg-white border border-gray-200 rounded-xl shadow-2xl z-[99999] animate-in slide-in-from-top-2 duration-200">
+          <div className="py-3">
+            <div className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100 bg-gray-50">
+              Select Bank to Integrate
+            </div>
+            <div className="max-h-64 overflow-y-auto">
+              {bankOptions.map((bank, index) => (
+                <button
+                  key={bank.name}
+                  onClick={() => handleBankSelect(bank.name)}
+                  className="w-full text-left px-5 py-4 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200 group border-b border-gray-50 last:border-b-0 focus:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="font-semibold text-gray-900 group-hover:text-blue-900 transition-colors duration-200 mb-1">
+                        {bank.name}
+                      </div>
+                      <div className="text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-200 mb-2">
+                        {bank.fullName}
+                      </div>
+                      <div className="text-xs text-gray-500 group-hover:text-gray-600 transition-colors duration-200">
+                        {bank.description}
+                      </div>
+                    </div>
+                    <div className="ml-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                        <ChevronDown size={14} className="text-white rotate-[-90deg]" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-y-1 group-hover:translate-y-0">
+                    <div className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium">
+                      Quick Setup
+                    </div>
+                    <div className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-medium">
+                      Instant Sync
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+            <div className="px-5 py-3 bg-gray-50 border-t border-gray-100 text-xs text-gray-500 text-center">
+              Bank-level security • Powered by Plaid
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Overlay to close dropdown when clicking outside */}
+      {isDropdownOpen && (
+        <div 
+          className="fixed inset-0 z-[99998]" 
+          onClick={() => setIsDropdownOpen(false)}
+        />
+      )}
       <div className="mb-10"></div>
       <div className="bg-white rounded-xl p-6 mb-20 border border-gray-100">
         {/* Card Name */}
