@@ -266,36 +266,6 @@ export default function FinanceDashboard() {
 
       {/* Main Content */}
       <main className="flex-1 p-6">
-        
-        {/* Header with Time Range */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <div className="flex items-center gap-3">
-            <div className="flex bg-white rounded-lg border border-gray-200 p-1">
-              {['7 D', '1 M', '6 M', '1 YR'].map((range) => (
-                <button
-                  key={range}
-                  onClick={() => setActiveTimeRange(range)}
-                  className={`px-4 py-1.5 rounded text-sm font-medium transition ${
-                    activeTimeRange === range
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                >
-                  {range}
-                </button>
-              ))}
-            </div>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50">
-              <Filter size={16} />
-              Filter
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50">
-              All Accounts
-              <ChevronDown size={16} />
-            </button>
-          </div>
-        </div>
 
         {/* Top Stats Row - Combined Progress Card */}
         <div className="bg-white rounded-xl p-6 border border-gray-100 mb-10">
