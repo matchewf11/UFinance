@@ -1,8 +1,3 @@
-package api
+package server
 
-type Handlers struct {
-
-}
-
-
-
+type Handlers struct{}
