@@ -2,11 +2,66 @@
 
 import React, { useState } from 'react';
 import Sidebar from '../components/sidebar/sidebar';
-import { Trophy, Flame, Users, Target, ChevronDown, ChevronUp, CheckCircle } from 'lucide-react';
+import { Trophy, Flame, Users, Target, ChevronDown, ChevronUp, CheckCircle, X, Plus, Link, Copy, Check } from 'lucide-react';
 
 export default function SocialPage() {
   const [isChallengesExpanded, setIsChallengesExpanded] = useState(true);
   const [isInsightsExpanded, setIsInsightsExpanded] = useState(true);
+  
+  // Modal states
+  const [showCreateGroupModal, setShowCreateGroupModal] = useState(false);
+  const [showEnterInviteModal, setShowEnterInviteModal] = useState(false);
+  
+  // Form states
+  const [groupName, setGroupName] = useState('');
+  const [groupDescription, setGroupDescription] = useState('');
+  const [inviteCode, setInviteCode] = useState('');
+  const [generatedCode, setGeneratedCode] = useState('');
+  const [isCodeCopied, setIsCodeCopied] = useState(false);
+
+  // Handle create group
+  const handleCreateGroup = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!groupName.trim()) return;
+    
+    // Generate a random invite code
+    const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+    setGeneratedCode(code);
+    
+    // Here you would typically send the data to your backend
+    console.log('Creating group:', { groupName, groupDescription, inviteCode: code });
+    
+    // Reset form
+    setGroupName('');
+    setGroupDescription('');
+  };
+
+  // Handle enter invite
+  const handleEnterInvite = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inviteCode.trim()) return;
+    
+    // Here you would typically validate the invite code with your backend
+    console.log('Joining group with code:', inviteCode);
+    
+    // Reset form and close modal
+    setInviteCode('');
+    setShowEnterInviteModal(false);
+    
+    // Show success message or redirect
+    alert('Successfully joined the group!');
+  };
+
+  // Copy invite code to clipboard
+  const copyInviteCode = async () => {
+    try {
+      await navigator.clipboard.writeText(generatedCode);
+      setIsCodeCopied(true);
+      setTimeout(() => setIsCodeCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy code:', err);
+    }
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -56,11 +111,17 @@ export default function SocialPage() {
               <span className="text-sm font-medium text-gray-600 uppercase tracking-wide">Groups</span>
             </div>
             <div className="flex items-center gap-3">
-              <button className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors duration-200 flex items-center gap-2">
+              <button 
+                onClick={() => setShowCreateGroupModal(true)}
+                className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+              >
                 <Users size={16} />
                 Create Group
               </button>
-              <button className="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium transition-colors duration-200">
+              <button 
+                onClick={() => setShowEnterInviteModal(true)}
+                className="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium transition-colors duration-200"
+              >
                 Enter Invite
               </button>
             </div>
@@ -321,6 +382,187 @@ export default function SocialPage() {
             </div>
           </div>
         </section>
+
+        {/* Create Group Modal */}
+        {showCreateGroupModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-900">Create New Group</h2>
+                <button 
+                  onClick={() => {
+                    setShowCreateGroupModal(false);
+                    setGroupName('');
+                    setGroupDescription('');
+                    setGeneratedCode('');
+                  }}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              {!generatedCode ? (
+                <form onSubmit={handleCreateGroup}>
+                  <div className="mb-4">
+                    <label htmlFor="groupName" className="block text-sm font-medium text-gray-700 mb-2">
+                      Group Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="groupName"
+                      value={groupName}
+                      onChange={(e) => setGroupName(e.target.value)}
+                      placeholder="e.g., College Friends, Work Team"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-6">
+                    <label htmlFor="groupDescription" className="block text-sm font-medium text-gray-700 mb-2">
+                      Description (Optional)
+                    </label>
+                    <textarea
+                      id="groupDescription"
+                      value={groupDescription}
+                      onChange={(e) => setGroupDescription(e.target.value)}
+                      placeholder="What's this group about?"
+                      rows={3}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    />
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowCreateGroupModal(false);
+                        setGroupName('');
+                        setGroupDescription('');
+                      }}
+                      className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={!groupName.trim()}
+                      className="flex-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+                    >
+                      <Plus size={16} />
+                      Create Group
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check size={32} className="text-green-600" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Group Created Successfully!</h3>
+                  <p className="text-gray-600 mb-4">Share this invite code with your friends:</p>
+                  
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl font-mono font-bold text-gray-900">{generatedCode}</span>
+                      <button
+                        onClick={copyInviteCode}
+                        className="flex items-center gap-2 px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded-lg transition-colors duration-200"
+                      >
+                        {isCodeCopied ? (
+                          <>
+                            <Check size={16} />
+                            Copied!
+                          </>
+                        ) : (
+                          <>
+                            <Copy size={16} />
+                            Copy
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setShowCreateGroupModal(false);
+                      setGroupName('');
+                      setGroupDescription('');
+                      setGeneratedCode('');
+                    }}
+                    className="w-full px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white rounded-lg transition-colors duration-200"
+                  >
+                    Done
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Enter Invite Modal */}
+        {showEnterInviteModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-900">Join a Group</h2>
+                <button 
+                  onClick={() => {
+                    setShowEnterInviteModal(false);
+                    setInviteCode('');
+                  }}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              <form onSubmit={handleEnterInvite}>
+                <div className="mb-6">
+                  <label htmlFor="inviteCode" className="block text-sm font-medium text-gray-700 mb-2">
+                    Invite Code *
+                  </label>
+                  <input
+                    type="text"
+                    id="inviteCode"
+                    value={inviteCode}
+                    onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
+                    placeholder="Enter 6-character code"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent text-center text-lg font-mono"
+                    maxLength={6}
+                    required
+                  />
+                  <p className="text-sm text-gray-500 mt-2">
+                    Ask your friend for the 6-character invite code
+                  </p>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowEnterInviteModal(false);
+                      setInviteCode('');
+                    }}
+                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={inviteCode.length !== 6}
+                    className="flex-1 px-4 py-2 bg-sky-500 hover:bg-sky-600 disabled:bg-gray-300 text-white rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+                  >
+                    <Link size={16} />
+                    Join Group
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
