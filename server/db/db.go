@@ -4,17 +4,16 @@ import (
 	"context"
 	"os"
 
-	"github.com/jackc/pgx/v5"
-	"github.com/joho/godotenv"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func New() (*pgx.Conn, error) {
-	err := godotenv.Load("../.env")
-	if err != nil {
-		return nil, err
-	}
+func New() (*pgxpool.Pool, error) {
+	// err := godotenv.Load("../.env")
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	conn, err := pgx.Connect(context.Background(), os.Getenv("db"))
+	conn, err := pgxpool.New(context.Background(), os.Getenv("db"))
 	if err != nil {
 		return nil, err
 	}
