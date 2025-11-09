@@ -18,7 +18,7 @@ type CreditCardRecommendation = {
   benefits: string[];
   estimatedSavings: number; // in dollars
   actionText: string;
-  color: "blue" | "yellow" | "green" | "red" | "purple" | "pink";
+  color: "blue" | "yellow" | "green" | "red" | "purple" | "pink" | "blueLight";
   personalizedInsights: PersonalizedInsight[];
   usageStrategies: UsageStrategy[];
 };
@@ -117,13 +117,17 @@ const recommendations: CreditCardRecommendation[] = [
 ];
 
 const cardColorMap: Record<CreditCardRecommendation["color"], string> = {
-  blue: "bg-gradient-to-r from-blue-400 to-blue-600",
-  yellow: "bg-gradient-to-r from-yellow-400 to-yellow-600",
-  green: "bg-gradient-to-r from-green-400 to-green-600",
-  red: "bg-gradient-to-r from-red-400 to-red-600",
-  purple: "bg-gradient-to-r from-purple-400 to-purple-600",
-  pink: "bg-gradient-to-r from-pink-400 to-pink-600",
-};
+    blue: "bg-gradient-to-r from-blue-400 to-blue-600",
+    yellow: "bg-gradient-to-r from-yellow-400 to-yellow-600",
+    green: "bg-gradient-to-r from-green-400 to-green-600",
+    red: "bg-gradient-to-r from-red-400 to-red-600",
+    purple: "bg-gradient-to-r from-purple-400 to-purple-600",
+    pink: "bg-gradient-to-r from-pink-400 to-pink-600",
+  
+    // ✅ NEW — Gentle financial gradient for Discover
+    blueLight: "bg-gradient-to-r from-sky-200 to-sky-500",
+  };
+  
 
 export default function FinanceCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -161,7 +165,7 @@ export default function FinanceCarousel() {
     const bankData: Record<string, { savings: number; value: string; color: CreditCardRecommendation["color"] }> = {
       "BECU": { savings: 320, value: "$180", color: "purple" },
       "Sound Credit Union": { savings: 275, value: "$165", color: "blue" },
-      "Discover": { savings: 385, value: "$220", color: "orange" as CreditCardRecommendation["color"] },
+"Discover": { savings: 385, value: "$220", color: "blueLight" },
       "Capital One": { savings: 340, value: "$195", color: "red" }
     };
 
