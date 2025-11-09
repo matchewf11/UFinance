@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"UFinance/api"
 	"UFinance/banking"
 	"UFinance/db"
+	"UFinance/server"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -21,12 +21,6 @@ func main() {
 	}
 	defer conn.Close(context.Background())
 
-	var version string
-	if err := conn.QueryRow(context.Background(), "SELECT version()").Scan(&version); err != nil {
-		log.Fatalf("Query failed: %v", err)
-	}
-	log.Println("Connected to:", version)
-
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
@@ -38,7 +32,8 @@ func main() {
 	}))
 
 	banking.BankingRouter(r)
-	api.APIRoutes(r)
+	s := server.New(r, conn)
+	s.APIRoutes()
 
 	log.Println("Server running on http://localhost:8080")
 	if err := r.Run(":8080"); err != nil && err != http.ErrServerClosed {
