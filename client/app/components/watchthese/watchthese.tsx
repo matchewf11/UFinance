@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, CreditCard } from 'lucide-react';
 
 interface SpendingAlert {
   icon: React.ComponentType<{ size?: number; className?: string }>;
@@ -10,6 +10,12 @@ interface SpendingAlert {
   goal: number;
   strategy: string;
   sparkline: number[];
+  cardRecommendation: {
+    name: string;
+    benefit: string;
+    annualSavings: number;
+    logo: string;
+  };
 }
 
 interface WatchTheseProps {
@@ -63,9 +69,28 @@ export default function WatchThese({ spendingAlerts }: WatchTheseProps) {
                 <p className="text-sm font-medium text-gray-900 mt-1">{alert.strategy}</p>
               </div>
 
-              <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2.5 rounded-lg text-sm font-semibold transition">
-                See Simple Savings Plan
-              </button>
+              {/* Card Recommendation */}
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-4 text-white">
+                <div className="flex items-center gap-2 mb-2">
+                  <CreditCard size={16} className="text-blue-100" />
+                  <span className="text-xs font-semibold text-blue-100 uppercase tracking-wide">
+                    AI Recommended
+                  </span>
+                </div>
+                
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="text-2xl">{alert.cardRecommendation.logo}</div>
+                  <div className="flex-1">
+                    <h4 className="font-bold text-sm mb-0.5">{alert.cardRecommendation.name}</h4>
+                    <p className="text-xs text-blue-100 leading-tight">{alert.cardRecommendation.benefit}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between pt-3 border-t border-blue-400/30">
+                  <span className="text-xs opacity-90">Potential Annual Savings</span>
+                  <span className="text-lg font-bold">${alert.cardRecommendation.annualSavings}</span>
+                </div>
+              </div>
             </div>
           );
         })}

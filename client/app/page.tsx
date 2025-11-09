@@ -58,17 +58,6 @@ interface BigGoal {
   milestone: string;
 }
 
-interface SpendingAlert {
-  icon: React.ComponentType<{ size?: number; className?: string }>;
-  name: string;
-  current: number;
-  baseline: number;
-  increase: number;
-  goal: number;
-  strategy: string;
-  sparkline: number[];
-}
-
 export default function FinanceDashboard() {
   const [activeTimeRange, setActiveTimeRange] = useState<string>('1M');
   
@@ -235,30 +224,6 @@ export default function FinanceDashboard() {
     }
     return null;
   };
-  
-  // Spending Alerts
-  const spendingAlerts: SpendingAlert[] = [
-    {
-      icon: Utensils,
-      name: 'DoorDash',
-      current: 280,
-      baseline: 120,
-      increase: 133,
-      goal: 120,
-      strategy: 'Meal prep',
-      sparkline: [20, 25, 30, 45, 60]
-    },
-    {
-      icon: Package,
-      name: 'Amazon',
-      current: 340,
-      baseline: 180,
-      increase: 89,
-      goal: 180,
-      strategy: '24hr rule',
-      sparkline: [30, 35, 40, 50, 70]
-    }
-  ];
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -269,20 +234,18 @@ export default function FinanceDashboard() {
 
         {/* Top Stats Row - Combined Progress Card */}
         <div className="bg-white rounded-xl p-6 border border-gray-100 mb-10">
-          <div className="flex items-center gap-2 mb-6">
-            <TrendingUp size={24} className="text-gray-600" />
-            <span className="text-2xl  font-bold text-gray-900">Your Projected Growth</span>
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp size={20} className="text-gray-900" />
+            <span className="text-xl font-bold text-gray-900">Your Projected Growth</span>
           </div>
           
-          <div className="flex items-center gap-8 mb-6">
-            <div>
-            <div className="text-6xl font-bold text-gray-900 mb-2">
-  ${Number(sixMonthSavingsProjection).toLocaleString()}
-</div>
+          <div className="flex items-baseline gap-8 mb-6">
+            <div className="text-6xl font-bold text-gray-900">
+              ${Number(sixMonthSavingsProjection).toLocaleString()}
             </div>
-            <div>
-              <div className="text-sm text-gray-600 mb-2">This Month</div>
-              <div className="text-4xl font-bold text-green-600 mb-2">+${totalWins}</div>
+            <div className="flex flex-col">
+              <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">This Month</div>
+              <div className="text-2xl font-bold text-green-600">+${totalWins}</div>
             </div>
           </div>
           

@@ -7,6 +7,23 @@ import Yourbenefits from "../components/Yourbenefits/Yourbenefits";
 import WatchThese from "../components/watchthese/watchthese";
 import { Utensils, Package } from "lucide-react";
 
+interface SpendingAlert {
+    icon: React.ComponentType<{ size?: number; className?: string }>;
+    name: string;
+    current: number;
+    baseline: number;
+    increase: number;
+    goal: number;
+    strategy: string;
+    sparkline: number[];
+    cardRecommendation: {
+      name: string;
+      benefit: string;
+      annualSavings: number;
+      logo: string;
+    };
+  }
+
 const Insights: React.FC = () => {
     // Spending breakdown data
     const spendingData = [
@@ -18,6 +35,41 @@ const Insights: React.FC = () => {
     { name: 'Impulse / Waste', value: 182.65, color: '#6b7280' }        // gray = unnoticed leakage
     ];
 
+    // Spending Alerts (single definition with cardRecommendation)
+    const spendingAlerts: SpendingAlert[] = [
+        {
+        icon: Utensils,
+        name: 'DoorDash',
+        current: 280,
+        baseline: 120,
+        increase: 133,
+        goal: 120,
+        strategy: 'Meal prep',
+        sparkline: [20, 25, 30, 45, 60],
+        cardRecommendation: {
+            name: 'Chase Sapphire Preferred',
+            benefit: '3x points on dining & food delivery',
+            annualSavings: 336,
+            logo: '💳'
+        }
+        },
+        {
+        icon: Package,
+        name: 'Amazon',
+        current: 340,
+        baseline: 180,
+        increase: 89,
+        goal: 180,
+        strategy: '24hr rule',
+        sparkline: [30, 35, 40, 50, 70],
+        cardRecommendation: {
+            name: 'Amazon Prime Rewards',
+            benefit: '5% back on Amazon purchases',
+            annualSavings: 204,
+            logo: '🛍️'
+        }
+        }
+    ];
 
     // Income vs Spending data
     const monthlyData = [
@@ -28,40 +80,6 @@ const Insights: React.FC = () => {
         { month: 'Sep', income: 3500, spending: 2600 },
         { month: 'Oct', income: 4000, spending: 800 }
     ];
-
-    interface SpendingAlert {
-        icon: React.ComponentType<{ size?: number; className?: string }>;
-        name: string;
-        current: number;
-        baseline: number;
-        increase: number;
-        goal: number;
-        strategy: string;
-        sparkline: number[];
-    }
-
-    const spendingAlerts: SpendingAlert[] = [
-    {
-      icon: Utensils,
-      name: 'DoorDash',
-      current: 280,
-      baseline: 120,
-      increase: 133,
-      goal: 120,
-      strategy: 'Meal prep',
-      sparkline: [20, 25, 30, 45, 60]
-    },
-    {
-      icon: Package,
-      name: 'Amazon',
-      current: 340,
-      baseline: 180,
-      increase: 89,
-      goal: 180,
-      strategy: '24hr rule',
-      sparkline: [30, 35, 40, 50, 70]
-    }
-  ];
 
     const totalSpending = spendingData.reduce((sum, item) => sum + item.value, 0);
     const currentMonthIncome = monthlyData[monthlyData.length - 1].income;
