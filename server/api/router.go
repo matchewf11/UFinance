@@ -1,8 +1,6 @@
 package api
 
 import (
-	"UFinance/ai"
-	"UFinance/api/handlers"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -10,8 +8,10 @@ import (
 	"log"
 	"net/http"
 
+	"UFinance/ai"
+	"UFinance/api/handlers"
+
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 func (s *server) APIRoutes() {
