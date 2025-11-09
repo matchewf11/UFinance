@@ -1,9 +1,8 @@
 package api
 
 import (
-	"net/http"
-
 	"UFinance/api/handlers"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -33,7 +32,9 @@ func (s *server) APIRoutes() {
 			})
 			return
 		}
-		c.JSON(http.StatusOK, quote)
+		c.JSON(http.StatusOK, gin.H{
+			"quote": quote,
+		})
 	})
 
 	// // Example: /api/ping
