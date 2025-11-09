@@ -1,9 +1,14 @@
 package api
 
 import (
-	"net/http"
-
+	"UFinance/ai"
 	"UFinance/api/handlers"
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"log"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -74,32 +79,65 @@ func (s *server) APIRoutes() {
 		})
 	})
 
-	// // Example: /api/ping
-	// api.GET("/ping", func(c *gin.Context) {
-	// 	c.JSON(http.StatusOK, gin.H{
-	// 		"message": "pong",
-	// 	})
-	// })
-	//
-	//
-	// // Example: /api/users/:id
-	// api.GET("/users/:id", func(c *gin.Context) {
-	// 	id := c.Param("id")
-	// 	c.JSON(http.StatusOK, gin.H{
-	// 		"user_id": id,
-	// 		"status":  "found",
-	// 	})
-	// })
-	//
-	// // Example: /api/data (POST)
-	// api.POST("/data", func(c *gin.Context) {
-	// 	var body map[string]any
-	// 	if err := c.BindJSON(&body); err != nil {
-	// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 		return
-	// 	}
-	// 	c.JSON(http.StatusOK, gin.H{
-	// 		"received": body,
-	// 	})
-	// })
+	// good, evil, giga, freaky
+	api.POST("/letsgronk", func(ctx *gin.Context) {
+		model := ctx.Query("grok")
+		bot := ai.ChooseYourGrok(model)
+
+		log.Println("I just grokked it with %s")
+		var req struct {
+			Content string `json:"content"`
+		}
+
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "need a body with 'content' field"})
+			return
+		}
+
+		if req.Content == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": req.Content})
+			return
+		}
+
+		reqBody := ai.Grokker{
+			Messages:    []ai.Message{bot, {Role: "user", Content: req.Content}},
+			Model:       "grok-4-fast-non-reasoning-latest",
+			Stream:      false,
+			Temperature: 0,
+		}
+
+		jsonData, err := json.Marshal(reqBody)
+		if err != nil {
+			ctx.JSON(500, gin.H{"error": "failed to marshal request"})
+			return
+		}
+
+		// log.Println(strings.NewReader(string(jsonData)))
+
+		grok, err := http.NewRequest("POST", "https://api.x.ai/v1/chat/completions",
+			bytes.NewReader(jsonData))
+		if err != nil {
+			ctx.JSON(500, gin.H{"error": "failed to create request"})
+			return
+		}
+
+		grok.Header.Add("Authorization", fmt.Sprintf("Bearer %s", ai.Gronkey))
+		grok.Header.Add("Content-Type", "application/json")
+
+		client := &http.Client{}
+		resp, err := client.Do(grok)
+		if err != nil {
+			ctx.JSON(500, gin.H{"error": "failed to call grok it"})
+			return
+		}
+		defer resp.Body.Close()
+
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			ctx.JSON(500, gin.H{"error": "failed to read response"})
+			return
+		}
+
+		ctx.Data(resp.StatusCode, "application/json", body)
+	})
 }
