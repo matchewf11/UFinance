@@ -1,12 +1,13 @@
 package main
 
 import (
-	"log"
-	"net/http"
-	"time"
-
 	"UFinance/api"
 	"UFinance/db"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -19,7 +20,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	gin.SetMode("release")
+	// gin.SetMode("release")
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
@@ -33,8 +34,11 @@ func main() {
 	s := api.New(r, conn)
 	s.APIRoutes()
 
-	log.Println("Server running on http://localhost:8080")
-	if err := r.Run(":8080"); err != nil && err != http.ErrServerClosed {
+	port := os.Getenv("SERVER_PORT")
+	if port == "" {
+		port = "8080"
+	}
+	if err := r.Run(fmt.Sprintf(":%s", port)); err != nil && err != http.ErrServerClosed {
 		log.Fatalf("Server failed: %v\n", err)
 	}
 }
