@@ -376,18 +376,6 @@ export default function FinanceDashboard() {
           wasteReductionAmount={wasteReductionAmount}
           CustomTooltip={CustomTooltip}
         />
-
-        <WatchThese spendingAlerts={spendingAlerts} />
-
-        {/* Your Benefits Component */}
-        <YourBenefits
-          balance={24098.00}
-          rewardRate={3}
-          pointsEarned={8400}
-          monthlyRewards={18}
-          benefitsUsed={6}
-          benefitsTotal={8}
-        />
       </main>
     </div>
   );
