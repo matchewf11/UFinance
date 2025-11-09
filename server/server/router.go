@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func APIRoutes(r *gin.Engine) {
-	api := r.Group("/api")
+func (s *server) APIRoutes() {
+	api := s.r.Group("/api")
 	auth := api.Group("/auth")
 	{
 		auth.POST("/register", controllers.Register)
