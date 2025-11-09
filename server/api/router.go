@@ -6,6 +6,13 @@ import (
 
 func APIRoutes(r *gin.Engine) {
 	api := r.Group("/api")
+	auth := api.Group("/auth")
+	{
+		auth.POST("/register", controllers.Register)
+		auth.POST("/login", controllers.Login)
+		auth.POST("/refresh", controllers.RefreshToken)
+		auth.POST("/logout", controllers.Logout)
+	}
 
 	api.GET("/api/quote", func(c *gin.Context) {
 		// query the database
