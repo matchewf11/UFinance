@@ -55,19 +55,32 @@ func (s *server) APIRoutes() {
 			Income          float32 `json:"income"`
 			City            string  `json:"city"`
 			MonthlySpending float32 `json:"monthly_spending"`
+			Email           string  `json:"email"`
 		}
-		var new_user user
-		if err := c.BindJSON(&new_user); err != nil {
+
+		var newUser user
+		if err := c.BindJSON(&newUser); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
 			return
 		}
-
 		sql := `
-		INSERT INTO user_data (income, city, monthly_spending)
-		VALUES ($1, $2, $3)
+		INSERT INTO auth.users (id, email)
+		VALUES (gen_random_uuid(), $1)
+		RETURNING id
 		`
-		_, err := s.pool.Exec(c, sql, new_user.Income, new_user.City, new_user.MonthlySpending)
-		if err != nil {
+
+		var uid string
+		if err := s.pool.QueryRow(c, sql, newUser.Email).Scan(&uid); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Bad Request of Internal Server Error"})
+			return
+		}
+
+		sql = `
+		INSERT INTO user_data (income, city, monthly_spending, user_uuid)
+		VALUES ($1, $2, $3, $4)
+		`
+
+		if _, err := s.pool.Exec(c, sql, newUser.Income, newUser.City, newUser.MonthlySpending, uid); err != nil {
 			c.JSON(
 				http.StatusInternalServerError,
 				gin.H{"error": "Invalid Request or Internal Server Error"},
