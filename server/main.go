@@ -22,13 +22,12 @@ func main() {
 		log.Println("No .env file found, relying on environment variables")
 	}
 
-	conn, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
+	conn, err := pgx.Connect(context.Background(), os.Getenv("db"))
 	if err != nil {
 		log.Fatalf("Failed to connect to the database: %v", err)
 	}
 	defer conn.Close(context.Background())
 
-	// test it
 	var version string
 	if err := conn.QueryRow(context.Background(), "SELECT version()").Scan(&version); err != nil {
 		log.Fatalf("Query failed: %v", err)
