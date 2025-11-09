@@ -11,12 +11,13 @@ import SpendingTimeline from "./components/SpendingTimeline/SpendingTimeLine";
 
 interface SpendingData {
   month: string;
-  dateTime: string;
   essential: number;
   discretionary: number;
   waste: number;
-  isPast: boolean;
   total: number;
+  savings?: number; // Keep it optional
+  dateTime: string;
+  isPast: boolean;
 }
 
 interface CustomTooltipProps {
@@ -143,11 +144,10 @@ export default function FinanceDashboard() {
   const yAxisMax = maxSpending + yAxisPadding;
   const yAxisMin = 0;
   
-  // Custom Tooltip Component
   const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
-      const totalAmount = data.total;
+      const savings = data.savings || 0;
       
       return (
         <div style={{
@@ -158,9 +158,28 @@ export default function FinanceDashboard() {
           color: '#fff'
         }}>
           <p style={{ fontWeight: 'bold', marginBottom: '8px' }}>{data.month}</p>
-          <p style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '8px' }}>
-            ${totalAmount.toLocaleString()}
+          
+          {/* Savings - Main Focus */}
+          <div style={{ 
+            backgroundColor: '#22c55e', 
+            borderRadius: '6px', 
+            padding: '8px', 
+            marginBottom: '12px',
+            textAlign: 'center'
+          }}>
+            <p style={{ fontSize: '14px', opacity: 0.9, marginBottom: '2px' }}>
+              💰 Money Saved
+            </p>
+            <p style={{ fontSize: '30px', fontWeight: 'bold' }}>
+              ${savings.toLocaleString()}
+            </p>
+          </div>
+  
+          {/* Spending Breakdown */}
+          <p style={{ fontSize: '11px', opacity: 0.7, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Spending Breakdown
           </p>
+          
           <div style={{ fontSize: '12px', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ width: '8px', height: '8px', backgroundColor: '#22c55e', borderRadius: '50%' }}></div>
             <span>Essential: ${data.essential.toLocaleString()}</span>
@@ -170,11 +189,24 @@ export default function FinanceDashboard() {
             <span>Discretionary: ${data.discretionary.toLocaleString()}</span>
           </div>
           {data.waste > 0 && (
-            <div style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ fontSize: '12px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <div style={{ width: '8px', height: '8px', backgroundColor: '#f87171', borderRadius: '50%' }}></div>
               <span>Waste: ${data.waste.toLocaleString()}</span>
             </div>
           )}
+          
+          {/* Total Spent */}
+          <div style={{ 
+            borderTop: '1px solid #444', 
+            paddingTop: '8px', 
+            fontSize: '13px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            fontWeight: '600'
+          }}>
+            <span>Total Spent:</span>
+            <span>${data.total.toLocaleString()}</span>
+          </div>
         </div>
       );
     }
