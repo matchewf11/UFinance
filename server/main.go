@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net/http"
 	"time"
@@ -16,10 +15,11 @@ import (
 func main() {
 	conn, err := db.New()
 	if err != nil {
-		log.Fatalf("could not make db")
+		log.Fatalf("could not connext to db: %s", err)
 	}
-	defer conn.Close(context.Background())
+	defer conn.Close()
 
+	gin.SetMode("release")
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
