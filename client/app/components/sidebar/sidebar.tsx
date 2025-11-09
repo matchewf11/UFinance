@@ -28,7 +28,7 @@ export default function Sidebar() {
       <div className="mb-12 flex items-center justify-between">
         {!isCollapsed && (
           <h1 className="text-2xl font-bold transition-all duration-200">
-            UFinance
+            IFinance
           </h1>
         )}
         <button
