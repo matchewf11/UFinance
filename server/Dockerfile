@@ -7,7 +7,9 @@ RUN if [ "$SERVER_ENV" != "production" ]; then \
     fi
 
 COPY server/go.mod server/go.sum ./
+
 RUN go mod download
+
 COPY server/ ./
 
 EXPOSE ${SERVER_PORT}
