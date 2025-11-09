@@ -6,7 +6,7 @@ interface UiCardProps {
 
 const UiCard = ({children}: UiCardProps) => {
     return(
-        <div className="bg-white border-1 border-solid border-neutral-300 rounded-[12px] p-2 h-full">
+        <div className="bg-white border-1 border-solid border-neutral-300 rounded-[12px] p-4 h-full">
             {children}
         </div>
     );
