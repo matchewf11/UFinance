@@ -1,5 +1,5 @@
 run:
-	@echo "Starting Go backend..."
+	@echo "Starting deez nutz..."
 	cd server && go run . &
 
 	@echo "Starting frontend..."
