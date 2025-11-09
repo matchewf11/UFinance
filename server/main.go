@@ -1,11 +1,12 @@
 package main
 
 import (
-	"UFinance/api"
-	"UFinance/banking"
 	"log"
 	"net/http"
 	"time"
+
+	"UFinance/api"
+	"UFinance/banking"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
