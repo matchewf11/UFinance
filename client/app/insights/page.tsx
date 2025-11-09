@@ -10,21 +10,23 @@ import { Utensils, Package } from "lucide-react";
 const Insights: React.FC = () => {
     // Spending breakdown data
     const spendingData = [
-        { name: 'Food', value: 450, color: '#3b82f6' },
-        { name: 'Auto', value: 320, color: '#10b981' },
-        { name: 'Shopping', value: 280, color: '#f59e0b' },
-        { name: 'Utilities', value: 200, color: '#ef4444' },
-        { name: 'Entertainment', value: 150, color: '#8b5cf6' }
+    { name: 'Eating Out / Food', value: 1900, color: '#ef4444' },       // red = emotional
+    { name: 'Concerts & Events', value: 1450, color: '#8b5cf6' },       // purple = indulgence
+    { name: 'Groceries', value: 400, color: '#10b981' },                // green = essential
+    { name: 'Transport / Gas', value: 350, color: '#3b82f6' },          // blue = neutral
+    { name: 'Bills & Utilities', value: 600, color: '#f59e0b' },        // yellow = baseline
+    { name: 'Impulse / Waste', value: 182.65, color: '#6b7280' }        // gray = unnoticed leakage
     ];
+
 
     // Income vs Spending data
     const monthlyData = [
-        { month: 'Jan', income: 3500, spending: 2800 },
-        { month: 'Feb', income: 3500, spending: 3100 },
-        { month: 'Mar', income: 3800, spending: 2900 },
-        { month: 'Apr', income: 3500, spending: 3400 },
-        { month: 'May', income: 3500, spending: 2600 },
-        { month: 'Jun', income: 4000, spending: 3200 }
+        { month: 'May', income: 3500, spending: 4800 },
+        { month: 'Jun', income: 3500, spending: 4100 },
+        { month: 'Jul', income: 3800, spending: 5900 },
+        { month: 'Aug', income: 3500, spending: 1400 },
+        { month: 'Sep', income: 3500, spending: 2600 },
+        { month: 'Oct', income: 4000, spending: 800 }
     ];
 
     interface SpendingAlert {
