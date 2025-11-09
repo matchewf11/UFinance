@@ -6,6 +6,7 @@ import UiCard from '../components/UiCard/UiCard';
 import RewardsGoalsCard from '../components/rewardsComponents/RewardGoalsCard/RewardGoalsCard';
 import MyCardsCard from '../components/rewardsComponents/MyCardsCard/MyCardsCard';
 import BrowseRewardsContainer from '../components/rewardsComponents/BrowseRewardsContainer/BrowseRewardsContainer';
+import SavingChart from '../components/rewardsComponents/SavingChart/SavingChart';
 
 const Rewards:React.FC  = () => {
     return(
@@ -18,7 +19,11 @@ const Rewards:React.FC  = () => {
                 </div>
                 <div className='flex-1 min-w-80'>
                     {/*Right side*/}
-                    <UiCard><BrowseRewardsContainer></BrowseRewardsContainer></UiCard>
+                    <div className='flex flex-col gap-4'>
+                        <UiCard><SavingChart></SavingChart></UiCard>
+                        <UiCard><BrowseRewardsContainer></BrowseRewardsContainer></UiCard>
+                    </div>
+                    
                 </div>
             </div>
         </div>
