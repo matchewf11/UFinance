@@ -1,21 +1,36 @@
 package server
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
 func (s *server) APIRoutes() {
 	api := s.r.Group("/api")
-	auth := api.Group("/auth")
+	// auth := api.Group("/auth")
 	{
-		auth.POST("/register", controllers.Register)
-		auth.POST("/login", controllers.Login)
-		auth.POST("/refresh", controllers.RefreshToken)
-		auth.POST("/logout", controllers.Logout)
+		// auth.POST("/register", controllers.Register)
+		// auth.POST("/login", controllers.Login)
+		// auth.POST("/refresh", controllers.RefreshToken)
+		// auth.POST("/logout", controllers.Logout)
 	}
 
 	api.GET("/quote", func(c *gin.Context) {
-		// query the database
+		var quote string
+		err := s.conn.QueryRow(c, `
+			SELECT quote
+			FROM quotes
+			ORDER BY RANDOM()
+			LIMIT 1
+			`).Scan(&quote)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK, quote)
 	})
 
 	// // Example: /api/ping
