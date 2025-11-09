@@ -1,0 +1,27 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+cmd = "go build -buildvcs=false -o ./tmp/app ."
+bin = "tmp/app"
+full_bin = "./tmp/app"
+include_ext = ["go"]
+exclude_dir = ["assets", "tmp", "vendor"]
+log = "air.log"
+delay = 500
+stop_on_error = true
+
+[log]
+time = true
+# level = "error"
+main_only = true
+
+[color]
+main = "magenta"
+watcher = "cyan"
+build = "yellow"
+runner = "green"
+
+[misc]
+clean_on_exit = true
+
