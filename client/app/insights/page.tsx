@@ -3,6 +3,9 @@
 import Sidebar from "../components/sidebar/sidebar";
 import React, { useState } from 'react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import Yourbenefits from "../components/Yourbenefits/Yourbenefits";
+import WatchThese from "../components/watchthese/watchthese";
+import { Utensils, Package } from "lucide-react";
 
 const Insights: React.FC = () => {
     // Spending breakdown data
@@ -24,6 +27,40 @@ const Insights: React.FC = () => {
         { month: 'Jun', income: 4000, spending: 3200 }
     ];
 
+    interface SpendingAlert {
+        icon: React.ComponentType<{ size?: number; className?: string }>;
+        name: string;
+        current: number;
+        baseline: number;
+        increase: number;
+        goal: number;
+        strategy: string;
+        sparkline: number[];
+    }
+
+    const spendingAlerts: SpendingAlert[] = [
+    {
+      icon: Utensils,
+      name: 'DoorDash',
+      current: 280,
+      baseline: 120,
+      increase: 133,
+      goal: 120,
+      strategy: 'Meal prep',
+      sparkline: [20, 25, 30, 45, 60]
+    },
+    {
+      icon: Package,
+      name: 'Amazon',
+      current: 340,
+      baseline: 180,
+      increase: 89,
+      goal: 180,
+      strategy: '24hr rule',
+      sparkline: [30, 35, 40, 50, 70]
+    }
+  ];
+
     const totalSpending = spendingData.reduce((sum, item) => sum + item.value, 0);
     const currentMonthIncome = monthlyData[monthlyData.length - 1].income;
     const currentMonthSpending = monthlyData[monthlyData.length - 1].spending;
@@ -43,10 +80,10 @@ const Insights: React.FC = () => {
             
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                     {/* Spending Breakdown Card */}
-                    <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200">
+                    <div className="bg-white rounded-2xl p-6 border border-slate-200">
                         <h2 className="text-2xl font-semibold text-slate-800 mb-6">Spending</h2>
-                        <div className="flex flex-col items-center">
-                        <ResponsiveContainer width="100%" height={300}>
+                        <div className="flex items-center gap-8">
+                        <ResponsiveContainer width="60%" height={300}>
                             <PieChart>
                             <Pie
                                 data={spendingData}
@@ -64,7 +101,7 @@ const Insights: React.FC = () => {
                             </PieChart>
                         </ResponsiveContainer>
                         
-                        <div className="w-full mt-6 space-y-3">
+                        <div className="flex-1 space-y-3">
                             {spendingData.map((item, index) => (
                             <div key={index} className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
@@ -82,7 +119,7 @@ const Insights: React.FC = () => {
                     </div>
 
                     {/* Income vs Spending Card */}
-                    <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200">
+                    <div className="bg-white rounded-2xl p-6 border border-slate-200">
                         <div className="flex justify-between items-start mb-6">
                         <h2 className="text-2xl font-semibold text-slate-800">Income vs Spending</h2>
                         <div className="text-right">
@@ -110,70 +147,11 @@ const Insights: React.FC = () => {
                         </ResponsiveContainer>
                     </div>
                     </div>
-
-                    {/* Personal Insights Card */}
-                    <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
-                    <h2 className="text-2xl font-semibold text-slate-800 mb-6">Personal Insights</h2>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div className="space-y-6">
-                        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-                            <h3 className="font-semibold text-blue-900 mb-2">You spend a lot on dining</h3>
-                            <p className="text-blue-800 text-sm">
-                            Your food expenses account for 32% of your monthly spending. This is higher than the average of 15-20%.
-                            </p>
-                        </div>
-
-                        <div className="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg">
-                            <h3 className="font-semibold text-emerald-900 mb-2">Tip</h3>
-                            <p className="text-emerald-800 text-sm">
-                            Using a rewards credit card for groceries could help you earn cash back and save money. Consider cards that offer 3-5% back on grocery purchases.
-                            </p>
-                        </div>
-                        </div>
-
-                        <div className="flex flex-col items-center justify-center">
-                        <div className="relative w-48 h-48 mb-4">
-                            <svg className="w-full h-full transform -rotate-90">
-                            <circle
-                                cx="96"
-                                cy="96"
-                                r="80"
-                                stroke="#e2e8f0"
-                                strokeWidth="16"
-                                fill="none"
-                            />
-                            <circle
-                                cx="96"
-                                cy="96"
-                                r="80"
-                                stroke="#10b981"
-                                strokeWidth="16"
-                                fill="none"
-                                strokeDasharray={`${(potentialSavings / 450) * 502.4} 502.4`}
-                                strokeLinecap="round"
-                            />
-                            </svg>
-                            <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <div className="text-4xl font-bold text-slate-800">${potentialSavings}</div>
-                            <div className="text-sm text-slate-500">per month</div>
-                            </div>
-                        </div>
-                        
-                        <div className="text-center">
-                            <p className="text-lg font-semibold text-slate-700 mb-2">Potential Savings</p>
-                            <p className="text-slate-600 text-sm">
-                            By optimizing your food spending with rewards cards,<br />
-                            you could save up to <span className="font-bold text-emerald-600">${potentialSavings}/month</span>
-                            </p>
-                            <p className="text-2xl font-bold text-emerald-600 mt-3">
-                            ${(potentialSavings * 12).toLocaleString()}/year
-                            </p>
-                        </div>
-                        </div>
+                    <div className="mt-4">
+                        <WatchThese spendingAlerts={spendingAlerts}></WatchThese>
                     </div>
-                    </div>
-
+                
 
             </main>
         </div>
