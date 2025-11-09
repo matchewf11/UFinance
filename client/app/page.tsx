@@ -270,8 +270,8 @@ export default function FinanceDashboard() {
         {/* Top Stats Row - Combined Progress Card */}
         <div className="bg-white rounded-xl p-6 border border-gray-100 mb-10">
           <div className="flex items-center gap-2 mb-6">
-            <TrendingUp size={18} className="text-gray-600" />
-            <span className="text-sm font-medium text-gray-600">Your Projected Growth</span>
+            <TrendingUp size={24} className="text-gray-600" />
+            <span className="text-2xl  font-bold text-gray-900">Your Projected Growth</span>
           </div>
           
           <div className="flex items-center gap-8 mb-6">
