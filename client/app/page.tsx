@@ -8,6 +8,7 @@ import FinanceCarousel from './components/FinanceCarousel/FinanceCarousel';
 import YourBenefits from './components/Yourbenefits/Yourbenefits';
 import WatchThese from './components/watchthese/watchthese';
 import SpendingTimeline from "./components/SpendingTimeline/SpendingTimeLine";
+import YourGoals from './components/YourGoals/YourGoals';
 
 interface SpendingData {
   month: string;
@@ -44,6 +45,17 @@ interface PlanStep {
   timeLeft: string;
   action: string;
   actionType: 'primary' | 'warning' | 'success';
+}
+
+interface BigGoal {
+  title: string;
+  description: string;
+  current: number;
+  target: number;
+  progress: number;
+  icon: string;
+  timeframe: string;
+  milestone: string;
 }
 
 interface SpendingAlert {
@@ -114,20 +126,31 @@ export default function FinanceDashboard() {
     }
   ];
   
-  // Spending Timeline (12 months)
+  // Big Goal
+  const bigGoal: BigGoal = {
+    title: 'Dream Vacation Fund',
+    description: 'Europe trip for 2 weeks',
+    current: 4250,
+    target: 8000,
+    progress: 53,
+    icon: '✈️',
+    timeframe: '8 months away',
+    milestone: '$5,000 by March'
+  };
+  
   const spendingTimeline: Omit<SpendingData, 'total'>[] = [
-    { month: 'JAN', dateTime: '2025-01', essential: 1820, discretionary: 850, waste: 145, isPast: true },
-    { month: 'FEB', dateTime: '2025-02', essential: 1850, discretionary: 1240, waste: 152, isPast: false },
-    { month: 'MAR', dateTime: '2025-03', essential: 1850, discretionary: 920, waste: 140, isPast: false },
-    { month: 'APR', dateTime: '2025-04', essential: 1850, discretionary: 900, waste: 120, isPast: false },
-    { month: 'MAY', dateTime: '2025-05', essential: 1850, discretionary: 880, waste: 100, isPast: false },
-    { month: 'JUN', dateTime: '2025-06', essential: 1850, discretionary: 860, waste: 80, isPast: false },
-    { month: 'JUL', dateTime: '2025-07', essential: 1850, discretionary: 850, waste: 60, isPast: false },
-    { month: 'AUG', dateTime: '2025-08', essential: 1850, discretionary: 840, waste: 40, isPast: false },
-    { month: 'SEP', dateTime: '2025-09', essential: 1850, discretionary: 830, waste: 20, isPast: false },
-    { month: 'OCT', dateTime: '2025-10', essential: 1850, discretionary: 820, waste: 0, isPast: false },
-    { month: 'NOV', dateTime: '2025-11', essential: 1850, discretionary: 810, waste: 0, isPast: false },
-    { month: 'DEC', dateTime: '2025-12', essential: 1850, discretionary: 800, waste: 0, isPast: false }
+    { month: 'JAN', dateTime: '2025-01', essential: 1300, discretionary: 300, waste: 3182.65, isPast: true },
+    { month: 'FEB', dateTime: '2025-02', essential: 1300, discretionary: 300, waste: 2682.65, isPast: true },
+    { month: 'MAR', dateTime: '2025-03', essential: 1300, discretionary: 300, waste: 2282.65, isPast: false },
+    { month: 'APR', dateTime: '2025-04', essential: 1300, discretionary: 300, waste: 2182.65, isPast: false },
+    { month: 'MAY', dateTime: '2025-05', essential: 1300, discretionary: 300, waste: 1882.65, isPast: false },
+    { month: 'JUN', dateTime: '2025-06', essential: 1300, discretionary: 300, waste: 1482.65, isPast: false },
+    { month: 'JUL', dateTime: '2025-07', essential: 1300, discretionary: 300, waste: 1182.65, isPast: false },
+    { month: 'AUG', dateTime: '2025-08', essential: 1300, discretionary: 300, waste: 882.65, isPast: false },
+    { month: 'SEP', dateTime: '2025-09', essential: 1300, discretionary: 300, waste: 682.65, isPast: false },
+    { month: 'OCT', dateTime: '2025-10', essential: 1300, discretionary: 300, waste: 582.65, isPast: false },
+    { month: 'NOV', dateTime: '2025-11', essential: 1300, discretionary: 300, waste: 282.65, isPast: false },
+    { month: 'DEC', dateTime: '2025-12', essential: 1300, discretionary: 300, waste: 182.65, isPast: false }
   ];
   
   // Calculate total spending for each month
@@ -243,36 +266,6 @@ export default function FinanceDashboard() {
 
       {/* Main Content */}
       <main className="flex-1 p-6">
-        
-        {/* Header with Time Range */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <div className="flex items-center gap-3">
-            <div className="flex bg-white rounded-lg border border-gray-200 p-1">
-              {['7 D', '1 M', '6 M', '1 YR'].map((range) => (
-                <button
-                  key={range}
-                  onClick={() => setActiveTimeRange(range)}
-                  className={`px-4 py-1.5 rounded text-sm font-medium transition ${
-                    activeTimeRange === range
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                >
-                  {range}
-                </button>
-              ))}
-            </div>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50">
-              <Filter size={16} />
-              Filter
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50">
-              All Accounts
-              <ChevronDown size={16} />
-            </button>
-          </div>
-        </div>
 
         {/* Top Stats Row - Combined Progress Card */}
         <div className="bg-white rounded-xl p-6 border border-gray-100 mb-10">
@@ -344,59 +337,7 @@ export default function FinanceDashboard() {
         <FinanceCarousel />
 
         {/* Your Goals Section */}
-        <div className="bg-white rounded-xl p-6 mb-6 border border-gray-100">
-          <div className="flex items-center gap-2 mb-5">
-            <Target size={20} className="text-gray-900" />
-            <h2 className="text-lg font-bold text-gray-900">Your Goals</h2>
-          </div>
-          
-          <div className="grid grid-cols-3 gap-4">
-            {planSteps.map((step) => (
-              <div key={step.step} className="border border-gray-200 rounded-xl p-5 hover:border-gray-300 transition">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-gray-500 uppercase">Step {step.step}</span>
-                  <span className={`text-xs font-semibold px-2 py-1 rounded ${
-                    step.progress === 100 ? 'bg-green-100 text-green-700' :
-                    step.progress >= 50 ? 'bg-blue-100 text-blue-700' :
-                    'bg-yellow-100 text-yellow-700'
-                  }`}>
-                    {step.progress === 100 ? 'Complete' : 'In Progress'}
-                  </span>
-                </div>
-                
-                <h3 className="text-xl font-bold text-gray-900 mb-4">{step.title}</h3>
-                
-                <div className="mb-1">
-                  <div className="text-sm text-gray-600 mb-1">{step.current}/{step.target}</div>
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full rounded-full transition-all ${
-                        step.progress === 100 ? 'bg-green-500' :
-                        step.progress >= 50 ? 'bg-blue-500' :
-                        'bg-yellow-500'
-                      }`}
-                      style={{ width: `${step.progress}%` }}
-                    />
-                  </div>
-                </div>
-                
-                <p className="text-xs text-gray-600 mb-4 mt-2">{step.timeLeft}</p>
-                
-                <button
-                  className={`w-full py-2.5 rounded-lg text-sm font-semibold transition ${
-                    step.actionType === 'primary'
-                      ? 'bg-gray-900 hover:bg-gray-800 text-white'
-                      : step.actionType === 'warning'
-                      ? 'bg-yellow-500 hover:bg-yellow-600 text-white'
-                      : 'bg-green-500 hover:bg-green-600 text-white'
-                  }`}
-                >
-                  {step.action}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+        <YourGoals planSteps={planSteps} bigGoal={bigGoal} />
 
         <SpendingTimeline
           chartData={chartData}
@@ -404,18 +345,6 @@ export default function FinanceDashboard() {
           yAxisMax={yAxisMax}
           wasteReductionAmount={wasteReductionAmount}
           CustomTooltip={CustomTooltip}
-        />
-
-        <WatchThese spendingAlerts={spendingAlerts} />
-
-        {/* Your Benefits Component */}
-        <YourBenefits
-          balance={24098.00}
-          rewardRate={3}
-          pointsEarned={8400}
-          monthlyRewards={18}
-          benefitsUsed={6}
-          benefitsTotal={8}
         />
       </main>
     </div>
