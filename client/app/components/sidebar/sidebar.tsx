@@ -49,7 +49,7 @@ export default function Sidebar() {
 
       <nav className="flex-1">
         <div className="mb-8">
-          {!isCollapsed && <p className="text-xs text-gray-500 uppercase tracking-wider mb-4">Main</p>}
+          <p className="text-xs text-gray-500 uppercase tracking-wider mb-4">Main</p>
           <ul className="space-y-2">
             {mainMenuItems.map((item) => {
               const Icon = item.icon;
@@ -76,7 +76,7 @@ export default function Sidebar() {
         </div>
 
         <div>
-          {!isCollapsed && <p className="text-xs text-gray-500 uppercase tracking-wider mb-4">Other</p>}
+          <p className="text-xs text-gray-500 uppercase tracking-wider mb-4">Other</p>
           <ul className="space-y-2">
             {otherMenuItems.map((item) => {
               const Icon = item.icon;
