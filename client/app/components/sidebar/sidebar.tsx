@@ -24,7 +24,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className={`${isCollapsed ? 'w-20' : 'w-64'} bg-gray-900 text-white p-6 flex flex-col transition-all duration-300 relative`}>
+    <aside className={`${isCollapsed ? 'w-20' : 'w-64'} bg-gray-900 text-white ${isCollapsed ? 'px-2 py-6' : 'p-6'} flex flex-col transition-all duration-300 relative sticky top-0 h-screen`}>
       {/* Collapse Toggle Button */}
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -35,8 +35,8 @@ export default function Sidebar() {
       </button>
 
       {/* Logo */}
-      <div className="mb-12 overflow-hidden">
-        <h1 className={`text-2xl font-bold transition-opacity duration-200 ${isCollapsed ? 'opacity-0' : 'opacity-100'}`}>
+      <div className="mb-12 overflow-hidden flex items-center justify-center">
+        <h1 className={`text-2xl font-bold transition-opacity duration-200 ${isCollapsed ? 'opacity-0 w-0' : 'opacity-100'}`}>
           {isCollapsed ? 'U' : 'UFinance'}
         </h1>
       </div>
@@ -55,12 +55,12 @@ export default function Sidebar() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className={`px-4 py-3 flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} rounded-lg transition ${
+                    className={`${isCollapsed ? 'px-2 py-3' : 'px-4 py-3'} flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} rounded-lg transition ${
                       isActive ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800'
                     }`}
                     title={isCollapsed ? item.name : undefined}
                   >
-                    <Icon size={20} />
+                    <Icon size={20} className="flex-shrink-0" />
                     {!isCollapsed && <span>{item.name}</span>}
                   </Link>
                 </li>
@@ -81,12 +81,12 @@ export default function Sidebar() {
                 <li key={item.name}>
                   <Link
                     href={item.href ?? '#'}
-                    className={`px-4 py-3 flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} rounded-lg transition ${
+                    className={`${isCollapsed ? 'px-2 py-3' : 'px-4 py-3'} flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} rounded-lg transition ${
                       isActive ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800'
                     }`}
                     title={isCollapsed ? item.name : undefined}
                   >
-                    <Icon size={20} />
+                    <Icon size={20} className="flex-shrink-0" />
                     {!isCollapsed && <span>{item.name}</span>}
                   </Link>
                 </li>
