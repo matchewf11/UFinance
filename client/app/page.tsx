@@ -30,7 +30,7 @@ export default function FinanceDashboard() {
       <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 max-w-[1600px] mx-auto">
         {/* Header */}
         <div className="flex justify-end items-center gap-4 mb-8">
           <button className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition">
