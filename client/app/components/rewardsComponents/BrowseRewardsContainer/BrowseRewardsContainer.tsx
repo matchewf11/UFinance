@@ -110,7 +110,16 @@ const BrowseRewardsContainer: React.FC = () => {
                     {/* Capital One Savor Card - Credit Card Style */}
                     <div className="group">
                         <div className="relative bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-2xl p-8 text-white shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden h-[420px]">
-                            {/* Credit Card Background Pattern */}
+                            {/* Small Credit Card Background Image - positioned top right like Uber logo */}
+                            <div className="absolute top-6 right-6 w-40 h-24 opacity-40">
+                                <Image 
+                                    src="https://blaqcards.com/cdn/shop/files/PLAIN-CARD.png?v=1703206122" 
+                                    alt="Credit Card Background" 
+                                    fill
+                                    className="object-contain rounded-lg filter brightness-150"
+                                />
+                            </div>
+                            {/* Background Pattern */}
                             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-indigo-600/30"></div>
                             <div className="absolute top-4 right-4 w-20 h-20 bg-white/5 rounded-full blur-3xl"></div>
                             <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl"></div>
@@ -212,9 +221,11 @@ const BrowseRewardsContainer: React.FC = () => {
                     {/* Amex Gold Card - Uber Themed Design */}
                     <div className="group">
                         <div className="relative bg-gradient-to-br from-yellow-400 via-amber-400 to-yellow-500 rounded-2xl p-8 text-white shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden h-[420px]">
-                            {/* Uber Logo Background */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/10"></div>
-                            <div className="absolute top-1/2 right-6 -translate-y-1/2 opacity-25">
+                            {/* Gold card pattern overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-amber-300/20 via-transparent to-yellow-600/30"></div>
+                            
+                            {/* Uber Logo in top right */}
+                            <div className="absolute top-6 right-6 opacity-40">
                                 <Image 
                                     src="https://www.svgrepo.com/show/473816/uber.svg" 
                                     alt="Uber Logo" 
@@ -223,7 +234,6 @@ const BrowseRewardsContainer: React.FC = () => {
                                     className="object-contain filter brightness-0 invert"
                                 />
                             </div>
-                            <div className="absolute bottom-0 right-0 w-40 h-40 bg-black/5 rounded-full blur-3xl"></div>
                             
                             {/* Card Header */}
                             <div className="relative z-10 flex items-center justify-between mb-6">
