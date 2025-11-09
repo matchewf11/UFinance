@@ -3,22 +3,25 @@ package api
 import (
 	"net/http"
 
+	"UFinance/api/handlers"
+
 	"github.com/gin-gonic/gin"
 )
 
 func (s *server) APIRoutes() {
+	handlerr := handlers.New(s.pool)
 	api := s.r.Group("/api")
-	// auth := api.Group("/auth")
+	auth := api.Group("/auth")
 	{
-		// auth.POST("/register", controllers.Register)
-		// auth.POST("/login", controllers.Login)
-		// auth.POST("/refresh", controllers.RefreshToken)
-		// auth.POST("/logout", controllers.Logout)
+		// auth.POST("/register", handlerr.Register)
+		auth.POST("/login", handlerr.Login)
+		// auth.POST("/refresh", handlerr.RefreshToken)
+		// auth.POST("/logout", handlerr.Logout)
 	}
 
 	api.GET("/quote", func(c *gin.Context) {
 		var quote string
-		err := s.conn.QueryRow(c, `
+		err := s.pool.QueryRow(c, `
 			SELECT quote
 			FROM quotes
 			ORDER BY RANDOM()
