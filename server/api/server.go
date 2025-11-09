@@ -2,17 +2,17 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type server struct {
 	r    *gin.Engine
-	conn *pgx.Conn
+	pool *pgxpool.Pool
 }
 
-func New(r *gin.Engine, conn *pgx.Conn) *server {
+func New(r *gin.Engine, conn *pgxpool.Pool) *server {
 	return &server{
 		r:    r,
-		conn: conn,
+		pool: conn,
 	}
 }
